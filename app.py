@@ -9,7 +9,13 @@ st.set_page_config(page_title="Kaliforniya Uy-joy Tahlili", layout="wide")
 
 
 @st.cache_data
-def load_data():return pd.read_csv("california_housing_test.csv")
+def load_data():
+    df = pd.read_csv("california_housing_test.csv")
+    float_cols = df.select_dtypes(include=['float64']).columns
+    df[float_cols] = df[float_cols].astype('float32')
+    int_cols = df.select_dtypes(include=['int64']).columns
+    df[int_cols] = df[int_cols].astype('int32')
+    return df
 
 
 df = load_data()
@@ -66,8 +72,9 @@ if page == "EDA Tahlil":
     )
     color_metric = from_label(selected_label)
 
+    map_df = df.sample(n=min(30000, len(df)), random_state=42) if len(df) > 30000 else df
     fig_map = px.scatter_mapbox(
-        df, lat="latitude", lon="longitude",
+        map_df, lat="latitude", lon="longitude",
         color=color_metric, size="population",
         color_continuous_scale=px.colors.sequential.Viridis,
         size_max=15, zoom=4.5, mapbox_style="carto-positron",
@@ -185,7 +192,7 @@ elif page == "Bashorat (Model)":
 
     @st.cache_resource
     def train_model(X_train, y_train):
-        model = RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1)
+        model = RandomForestRegressor(n_estimators=100,max_depth=15, max_samples=0.3, random_state=42, n_jobs=-1)
         model.fit(X_train, y_train)
         return model
 
