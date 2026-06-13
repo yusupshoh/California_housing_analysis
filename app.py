@@ -46,7 +46,7 @@ st.sidebar.title("Navigatsiya")
 st.sidebar.markdown("Kerakli bo'limni tanlang:")
 st.sidebar.markdown("**Bo'limlar:**")
 page = st.sidebar.radio(
-    label="",
+    label="Bo'limni tanlang",  # Bo'sh qoldirmasdan matn yozamiz
     options=["EDA Tahlil", "Bashorat (Model)", "Ma'lumot Haqida"],
     label_visibility="collapsed",
 )
@@ -77,12 +77,12 @@ if page == "EDA Tahlil":
         map_df, lat="latitude", lon="longitude",
         color=color_metric, size="population",
         color_continuous_scale=px.colors.sequential.Viridis,
-        size_max=15, zoom=4.5, mapbox_style="carto-positron",
+        size_max=15, zoom=4.5, map_style="open-street-map",
         hover_data=["median_income", "housing_median_age", "median_house_value"],
         labels=LABEL_MAP,
     )
     fig_map.update_layout(height=600, margin=dict(l=0, r=0, t=0, b=0))
-    st.plotly_chart(fig_map, use_container_width=True)
+    st.plotly_chart(fig_map, width="stretch")
     st.markdown("---")
     st.subheader("Korrelyatsiya matritsasi")
     st.write(
