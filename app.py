@@ -10,7 +10,7 @@ st.set_page_config(page_title="Kaliforniya Uy-joy Tahlili", layout="wide")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("california_housing_test.csv")
+    df = pd.read_csv("california_housing_expanded.csv")
     float_cols = df.select_dtypes(include=['float64']).columns
     df[float_cols] = df[float_cols].astype('float32')
     int_cols = df.select_dtypes(include=['int64']).columns
