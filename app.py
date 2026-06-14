@@ -72,8 +72,8 @@ if page == "EDA Tahlil":
     )
     color_metric = from_label(selected_label)
 
-    map_df = df.sample(n=min(30000, len(df)), random_state=42) if len(df) > 30000 else df
-    fig_map = px.scatter_mapbox(
+    map_df = df.sample(n=min(20000, len(df)), random_state=42) if len(df) > 20000 else df
+    fig_map = px.scatter_map(
         map_df, lat="latitude", lon="longitude",
         color=color_metric, size="population",
         color_continuous_scale=px.colors.sequential.Viridis,
